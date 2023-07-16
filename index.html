@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rezeptverwaltungs-Web-App</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <header>
+    <h1>Rezeptverwaltungs-Web-App</h1>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="main-content">
+
+        <div class="recipe-form" id="recipe-form">
+          <h2>Rezept hinzufügen/bearbeiten</h2>
+          <label for="title">Titel:</label>
+          <input type="text" id="title" required>
+          <label for="category">Kategorie:</label>
+          <select id="category" required>
+            <option value="">Bitte wählen</option>
+            <option value="Vorspeisen">Vorspeisen</option>
+            <option value="Hauptgerichte">Hauptgerichte</option>
+            <option value="Desserts">Desserts</option>
+          </select>
+          <label for="ingredients">Zutaten:</label>
+          <textarea id="ingredients" required></textarea>
+          <label for="steps">Zubereitungsschritte:</label>
+          <textarea id="steps" required></textarea>
+          <button id="add-recipe-button" onclick="addRecipeForm()">Hinzufügen</button>
+        </div>
+            <div class="search-container">
+            <input type="text" id="search-input" placeholder="Rezepte suchen..." oninput="searchRecipes(this.value)">
+            </div>
+        <div class="recipe-list" id="recipe-list"></div>
+      </div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
