@@ -1,4 +1,4 @@
-// Code für die Verwaltung von Rezepten
+// Variablen für die Verwaltung von Rezepten
 let recipes = [];
 let editingIndex = -1; // Index des bearbeiteten Rezepts
 
@@ -102,15 +102,14 @@ function addRecipeForm() {
 }
 
 function editRecipeForm(index) {
-    const recipe = recipes[index];
-    document.getElementById('title').value = recipe.title;
-    document.getElementById('category').value = recipe.category;
-    document.getElementById('ingredients').value = recipe.ingredients;
-    document.getElementById('steps').value = recipe.steps;
-    editingIndex = index; // Setzen des Bearbeitungsindex
-    document.getElementById('add-recipe-button').innerText = 'Aktualisieren'; // Änderungen im Button-Text vornehmen
-  }
-  
+  const recipe = recipes[index];
+  document.getElementById('title').value = recipe.title;
+  document.getElementById('category').value = recipe.category;
+  document.getElementById('ingredients').value = recipe.ingredients;
+  document.getElementById('steps').value = recipe.steps;
+  editingIndex = index; // Setzen des Bearbeitungsindex
+  document.getElementById('add-recipe-button').innerText = 'Aktualisieren'; // Änderungen im Button-Text vornehmen
+}
 
 // Funktion zum Aktualisieren eines vorhandenen Rezepts
 function updateRecipeForm(index) {
@@ -163,9 +162,11 @@ function rateRecipe(index, rating) {
     saveRecipes();
     displayRecipes();
   } else {
-    alert('Sie können das Rezept erst nach 14 Tagen erneut bewerten.');
+    const daysRemaining = Math.ceil((lastRating.date.getTime() + 14 * 24 * 60 * 60 * 1000 - currentDate.getTime()) / (24 * 60 * 60 * 1000));
+    alert(`Sie können das Rezept erst nach ${daysRemaining} Tagen erneut bewerten.`);
   }
 }
+
 
 // Funktion zur Berechnung der Durchschnittsbewertung eines Rezepts
 function calculateAverageRating(recipe) {
@@ -224,50 +225,24 @@ function displayFilteredRecipes(filteredRecipes) {
   });
 }
 
-// Beispiel-Skript zum Hinzufügen von Beispielrezepten
-function addExampleRecipes() {
-  const exampleRecipes = [
-    {
-      title: 'Beispielrezept 1',
-      category: 'Kategorie 1',
-      ingredients: 'Zutat A, Zutat B, Zutat C',
-      steps: 'Schritt 1, Schritt 2, Schritt 3',
-      favorite: false,
-      ratings: []
-    },
-    {
-      title: 'Beispielrezept 2',
-      category: 'Kategorie 2',
-      ingredients: 'Zutat D, Zutat E, Zutat F',
-      steps: 'Schritt 1, Schritt 2, Schritt 3',
-      favorite: false,
-      ratings: []
-    },
-    {
-      title: 'Beispielrezept 3',
-      category: 'Kategorie 3',
-      ingredients: 'Zutat G, Zutat H, Zutat I',
-      steps: 'Schritt 1, Schritt 2, Schritt 3',
-      favorite: false,
-      ratings: []
-    },
-    // Weitere Beispielrezepte hier einfügen...
-  ];
-
-  exampleRecipes.forEach(recipe => {
-    addRecipe(recipe);
-  });
-}
-
-// Beispielrezepte hinzufügen
-addExampleRecipes();
-
 // Funktion zum Anpassen des Formulars für das Hinzufügen
 function updateFormForAdd() {
-  document.getElementById('add-update-button').innerText = 'Hinzufügen';
+  document.getElementById('add-recipe-button').innerText = 'Hinzufügen';
 }
 
 // Funktion zum Anpassen des Formulars für die Bearbeitung
 function updateFormForEdit() {
-  document.getElementById('add-update-button').innerText = 'Aktualisieren';
+  document.getElementById('add-recipe-button').innerText = 'Aktualisieren';
 }
+
+// Funktion zum Laden der Rezepte beim Seitenaufruf
+loadRecipes();
+
+// cursor fire
+document.addEventListener('mousemove', function(event) {
+  var cursorFire = document.querySelector('.cursor-fire');
+  var x = event.clientX - 20;
+  var y = event.clientY - 20;
+  cursorFire.style.left = x + 'px';
+  cursorFire.style.top = y + 'px';
+});
