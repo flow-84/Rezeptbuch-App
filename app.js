@@ -103,7 +103,7 @@ function displayRecipes() {
     const title = recipe && recipe.title ? recipe.title : '';
     const category = recipe && recipe.category ? recipe.category : '';
     const ingredients = recipe && recipe.ingredients ? recipe.ingredients : '';
-    const steps = recipe && recipe.steps ? recipe.steps : '';
+    const steps = recipe && recipe.steps ? recipe.steps.split('\n') : []; // Schritte als Liste
 
     const ratingCount = recipe && recipe.ratings && recipe.ratings.length ? recipe.ratings.length : 0;
     const averageRating = calculateAverageRating(recipe);
@@ -114,7 +114,9 @@ function displayRecipes() {
       <h3>${title}</h3>
       <p>${category}</p>
       <p>${ingredients}</p>
-      <p>${steps}</p>
+      <ul>
+        ${steps.map(step => `<li>${step}</li>`).join('')} <!-- Schritte als Liste -->
+      </ul>
       <p>Anzahl der Bewertungen: ${ratingCount}</p>
       <p>Durchschnittliche Bewertung: ${averageRating}</p>
       <div class="rating-stars">
@@ -130,6 +132,7 @@ function displayRecipes() {
     recipeList.appendChild(recipeItem);
   });
 }
+
 
 // Funktion zum Anzeigen der Favoritenliste
 function displayFavorites() {
