@@ -111,7 +111,7 @@ function displayRecipes() {
     const favoriteClass = recipe && recipe.favorite ? 'favorite' : '';
 
     recipeItem.innerHTML = `
-      <h3>${title}</h3>
+      <h2>${title}</h2>
       <p>${category}</p>
       <p>${ingredients}</p>
       <ul>
@@ -240,22 +240,23 @@ function toggleFavorite(index) {
 function rateRecipe(index, rating) {
   const recipe = recipes[index];
 
-  // Check if recipe exists and has ratings
+// Überprüfen, ob das Rezept vorhanden ist und Bewertungen hat
   if (recipe && recipe.ratings) {
     const lastRating = recipe.ratings.length > 0 ? recipe.ratings[recipe.ratings.length - 1] : null;
     const currentDate = new Date();
 
-    if (lastRating === null || !lastRating.date || currentDate.getTime() - lastRating.date.getTime() >= 14 * 24 * 60 * 60 * 1000) {
+    if (lastRating === null || !lastRating.date || currentDate.getTime() - lastRating.date.getTime() >= 1 * 60 * 1000) {
       const newRating = { rating: rating, date: currentDate };
       recipe.ratings.push(newRating);
       saveRecipes();
-      displayRecipes(); // Update the displayed recipes
+      displayRecipes(); // Update das angezeigte Rezept
     } else {
-      const daysRemaining = Math.ceil((lastRating.date.getTime() + 14 * 24 * 60 * 60 * 1000 - currentDate.getTime()) / (24 * 60 * 60 * 1000));
-      alert(`Sie können das Rezept erst nach ${daysRemaining} Tagen erneut bewerten.`);
+      const minutesRemaining = Math.ceil((lastRating.date.getTime() + 1 * 60 * 1000 - currentDate.getTime()) / (60 * 1000));
+      alert(`Sie können das Rezept erst nach ${minutesRemaining} Minuten erneut bewerten.`);
     }
   }
 }
+
 
 
 
@@ -300,25 +301,40 @@ function displayFilteredRecipes(filteredRecipes) {
   filteredRecipes.forEach((recipe, index) => {
     const recipeItem = document.createElement('div');
     recipeItem.className = 'recipe-item';
+
+    const title = recipe && recipe.title ? recipe.title : '';
+    const category = recipe && recipe.category ? recipe.category :'';
+    const ingredients = recipe && recipe.ingredients ? recipe.ingredients : '';
+    const steps = recipe && recipe.steps ? recipe.steps.split('\n') : []; // Schritte als Liste
+
+    const ratingCount = recipe && recipe.ratings && recipe.ratings.length ? recipe.ratings.length : 0;
+    const averageRating = calculateAverageRating(recipe);
+
+    const favoriteClass = recipe && recipe.favorite ? 'favorite' : '';
+
     recipeItem.innerHTML = `
-      <h3>${recipe.title}</h3>
-      <p>${recipe.category}</p>
-      <p>${recipe.ingredients}</p>
-      <p>${recipe.steps}</p>
-      <p>Anzahl der Bewertungen: ${recipe.ratings ? recipe.ratings.length : 0}</p>
-      <p>Durchschnittliche Bewertung: ${calculateAverageRating(recipe)}</p>
+      <h2>${title}</h2>
+      <p>${category}</p>
+      <p>${ingredients}</p>
+      <ul>
+        ${steps.map(step => `<li>${step}</li>`).join('')} <!-- Schritte als Liste -->
+      </ul>
+      <p>Anzahl der Bewertungen: ${ratingCount}</p>
+      <p>Durchschnittliche Bewertung: ${averageRating}</p>
       <div class="rating-stars">
-        ${renderRatingStars(index)}
+        ${renderRatingStars(recipes.indexOf(recipe))}
       </div>
-      <button onclick="editRecipeForm(${index})">Bearbeiten</button>
-      <button onclick="deleteRecipe(${index})">Löschen</button>
-      <button onclick="toggleFavorite(${index})" class="${recipe.favorite ? 'favorite' : ''}">
-        ${recipe.favorite ? 'Aus Favoriten entfernen' : 'Zu Favoriten hinzufügen'}
+      <button onclick="editRecipeForm(${recipes.indexOf(recipe)})">Bearbeiten</button>
+      <button onclick="deleteRecipe(${recipes.indexOf(recipe)})">Löschen</button>
+      <button onclick="toggleFavorite(${recipes.indexOf(recipe)})" class="${favoriteClass}">
+        ${recipe && recipe.favorite ? 'Aus Favoriten entfernen' : 'Zu Favoriten hinzufügen'}
       </button>
     `;
+
     recipeList.appendChild(recipeItem);
   });
 }
+
 
 // Funktion zum Anpassen des Formulars für das Hinzufügen
 function updateFormForAdd() {
