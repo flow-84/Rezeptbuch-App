@@ -1,9 +1,10 @@
 :root {
-  --color-primary: #000000;
-  --color-secondary: #ff0000;
-  --color-tertiary: #ffebb7;
-  --color-text: #ffffff;
-  --color-gradient: linear-gradient(to right, var(--color-tertiary), var(--color-secondary), var(--color-tertiary));
+  /* Farbvariablen */
+  --color-primary: #000000; /* Primärfarbe */
+  --color-secondary: #ff0000; /* Sekundärfarbe */
+  --color-tertiary: #ffebb7a5; /* Tertiärfarbe */
+  --color-text: #ffffff; /* Textfarbe */
+  --color-gradient: linear-gradient(to right, var(--color-tertiary), var(--color-secondary), var(--color-tertiary)); /* Farbverlauf */
 }
 
 /* Allgemeine Stile */
@@ -15,7 +16,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  background: var(--color-gradient);
+  background: var(--color-gradient); /* Hintergrundfarbe mit Farbverlauf */
 }
 
 .container {
@@ -23,19 +24,20 @@ body {
   max-width: 1000px;
   margin: 0;
   padding: 10px;
-  background-color: var(--color-gradient);
+  background-color: var(--color-gradient); /* Hintergrundfarbe mit Farbverlauf */
   display: flexbox;
 }
 
 /* Header */
 header {
-  background-color: var(--color-primary);
-  color: #ffffff;
+  background-color: var(--color-primary); /* Hintergrundfarbe des Headers */
+  color: #ffffff; /* Textfarbe des Headers */
   padding: 20px;
   text-align: center;
 }
 
 .header-background {
+  /* Hintergrundbild des Headers */
   position: fixed;
   top: 0;
   left: 0;
@@ -52,6 +54,7 @@ header {
 }
 
 @keyframes zoomEffect {
+  /* Animation für den Zoom-Effekt des Hintergrundbildes */
   0% {
     transform: scale(1.2);
   }
@@ -88,12 +91,21 @@ header h1 {
 .recipe-item,
 .favorites-list {
   display: flexbox;
-  background-color: #000000b3;
+  background-color: #000000b3; /* Hintergrundfarbe der Rezeptliste, des Rezeptformulars, der Rezeptelemente und der Favoritenliste */
   padding: 20px;
   margin-top: 20px;
   margin-bottom: 20px;
   border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Schatten um die Rezeptliste, das Rezeptformular, die Rezeptelemente und die Favoritenliste */
+}
+
+.recipe-item ul {
+  margin-top: 50px; /* Zeilenabstand von 3 Pixeln */
+  margin-bottom: 10px;
+}
+
+.recipe-item ul li {
+  padding-bottom: 15px; /* Abstand zwischen den Schritten */
 }
 
 .recipe-form h2 {
@@ -103,7 +115,7 @@ header h1 {
 .recipe-form label {
   display: block;
   margin-top: 20px;
-  color: var(--color-text);
+  color: var(--color-text); /* Textfarbe des Formulars */
 }
 
 .recipe-form select {
@@ -113,8 +125,8 @@ header h1 {
   margin-top: 5px;
   border-radius: 10px;
   border: none;
-  background-color: #ffffff;
-  color:#000000;
+  background-color: #ffffff; /* Hintergrundfarbe des Auswahlfeldes */
+  color: #000000; /* Textfarbe des Auswahlfeldes */
 }
 
 .recipe-form textarea {
@@ -125,8 +137,8 @@ header h1 {
   margin-top: 5px;
   border-radius: 10px;
   border: none;
-  background-color: #ffffff;
-  color:#000000;
+  background-color: #ffffff; /* Hintergrundfarbe des Textfeldes */
+  color: #000000; /* Textfarbe des Textfeldes */
 }
 
 .recipe-form input {
@@ -136,17 +148,17 @@ header h1 {
   margin-top: 5px;
   border-radius: 10px;
   border: none;
-  background-color: #ffffff;
-  color:#000000;
+  background-color: #ffffff; /* Hintergrundfarbe des Eingabefeldes */
+  color: #000000; /* Textfarbe des Eingabefeldes */
 }
 
 .recipe-form button {
-  margin-top: 40px;
+  margin-top: 20px;
   padding: 20px 20px;
   border: none;
   border-radius: 10px;
-  background-color: var(--color-secondary);
-  color: #fff;
+  background-color: var(--color-secondary); /* Hintergrundfarbe des Buttons */
+  color: #fff; /* Textfarbe des Buttons */
   cursor: pointer;
   width: 100%;
 }
@@ -155,16 +167,17 @@ header h1 {
   display: flex;
   align-items: center;
   gap: 5px;
+  margin-bottom: 20px;
 }
 
 .star {
   font-size: 24px;
-  color: #FFD166;
+  color: #FFD166; /* Farbe der Sterne */
   cursor: pointer;
 }
 
 .star.checked {
-  color: #FF6B6B;
+  color: #FF6B6B; /* Farbe der ausgefüllten Sterne */
 }
 
 .search-container {
@@ -180,77 +193,96 @@ header h1 {
   margin-bottom: 10px;
   border-radius: 10px;
   border: none;
-  background-color: var(--color-primary);
-  color: #ffffff;
+  background-color: var(--color-primary); /* Hintergrundfarbe des Suchfeldes */
+  color: #ffffff; /* Textfarbe des Suchfeldes */
 }
+
 .favorites-list {
   margin-top: 50px;
-  display: flex;
+  display: flexbox;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: flex-start;
   max-width: 1000px;
   width: 100%;
   margin-left: 0px;
+  position: relative;
+
+}
+.favorites-list:empty {
+  display: none;
 }
 
-.favorites-list h2 {
-  margin-top: 0;
+.favorites-list:not(:empty)::before {
+  content: "Favoriten";
+  padding: 10px;
+  display: block;
+  text-align: center;
+  font-weight: bold;
+  font-size: medium;
 }
+
+.favorites-list {
+  position: relative;
+}
+
+.favorites-heading {
+  display: flexbox;
+  position: absolute;
+  top: -30px;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+}
+
+
+
 
 .favorites-list .favorite-item {
-  background-color: var(--color-secondary);
-  color: var(--color-text);
+  background-color: #0000009e; /* Hintergrundfarbe der Favoritenliste */
+  color: var(--color-text); /* Textfarbe der Favoritenliste */
   width: auto;
   height: auto;
-  margin: 10px;
-  padding: 10px;
+  margin: 20px;
+  padding:1px 1px 1px 30px;
   border-radius: 5px;
   cursor: pointer;
+  font-size: larger;
 }
 
 .favorites-list .favorite-item:hover {
-  background-color: var(--color-tertiary);
+  background-color: var(--color-tertiary); /* Hintergrundfarbe der Favoritenliste beim Hovern */
+  color:black ;
 }
 
 .favorites-list .favorite-item:active {
-  transform: scale(0.95);
-}
-
-
-
-.favorites-list .favorite-item:hover {
-  background-color: var(--color-tertiary);
-}
-
-.favorites-list .favorite-item:active {
-  transform: scale(0.95);
+  transform: scale(0.95); /* Skalierungseffekt beim Klicken auf ein Favoriten-Element */
 }
 
 @media screen and (min-width: 480px) {
   .main-content {
     grid-template-columns: 1fr 1fr;
   }
-  
+
   .search-container {
     color: #f9f9f9;
     grid-column: 1 / 3;
   }
-  
+
   .recipe-form input,
   .recipe-form textarea,
   .recipe-form select {
     width: 100%;
     max-width: 100%;
   }
-  
+
   .container {
     width: 100%;
     padding: 10px;
     margin-left: auto;
     margin-right: auto;
   }
-  
+
   .favorites-list {
     width: 100%;
   }
@@ -267,9 +299,7 @@ header h1 {
   position: fixed;
   pointer-events: none;
   z-index: 9999;
-  width: 60px;
-  height: 60px;
-  background-image: url('fire.gif');
-  background-size: contain;
-  background-repeat: no-repeat;
+  width: 40px;
+  height: 40px;
+  background-image: url('fire.gif'); 
 }
