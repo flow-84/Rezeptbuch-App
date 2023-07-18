@@ -40,8 +40,8 @@ Siehe [hier](code_documentation.md) für eine ausführliche Dokumentation des Co
 
 ## Autoren
 
-Die Rezeptverwaltungsanwendung wurde von [Ihr Name] entwickelt.
+Die Rezeptverwaltungsanwendung wurde von Flow-84 entwickelt.
 
 ## Lizenz
 
-Dieses Projekt ist unter der [MIT-Lizenz](LICENSE) lizenziert.
+Dieses Projekt ist unter der [MIT-Lizenz](https://github.com/flow-84/Rezeptbuch-App/blob/main/LICENSE) lizenziert.
