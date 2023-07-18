@@ -8,6 +8,50 @@ function loadRecipes() {
   if (storedRecipes) {
     recipes = JSON.parse(storedRecipes);
     displayRecipes();
+    displayFavorites();
+  } else {
+    // Grillrezepte hinzufügen, wenn kein Rezept im Local Storage vorhanden ist
+    const grillRecipes = [
+      {
+        title: 'Grillhähnchen',
+        category: 'Hauptgerichte',
+        ingredients: 'Hähnchen, Salz, Pfeffer, Paprika, Knoblauch',
+        steps: '1. Hähnchen würzen\n2. Auf den Grill legen\n3. Grillen bis durchgegart'
+      },
+      {
+        title: 'Rindersteak',
+        category: 'Hauptgerichte',
+        ingredients: 'Rindersteak, Salz, Pfeffer, Öl',
+        steps: '1. Rindersteak würzen\n2. Auf den Grill legen\n3. Grillen nach gewünschtem Gargrad'
+      },
+      {
+        title: 'Gemüsespieße',
+        category: 'Vorspeisen',
+        ingredients: 'Gemüse nach Wahl, Öl, Salz, Pfeffer',
+        steps: '1. Gemüse in Stücke schneiden\n2. Auf Spieße stecken\n3. Mit Öl, Salz und Pfeffer würzen\n4. Auf den Grill legen\n5. Grillen bis das Gemüse gar ist'
+      },
+      {
+        title: 'Gegrillte Garnelen',
+        category: 'Vorspeisen',
+        ingredients: 'Garnelen, Knoblauch, Zitrone, Öl, Salz, Pfeffer',
+        steps: '1. Garnelen schälen und entdarmen\n2. Knoblauch und Zitrone pressen\n3. Garnelen mit Knoblauch, Zitrone, Öl, Salz und Pfeffer marinieren\n4. Auf den Grill legen\n5. Grillen bis die Garnelen gar sind'
+      },
+      {
+        title: 'Gegrillte Ananas',
+        category: 'Desserts',
+        ingredients: 'Ananas, Honig, Zimt',
+        steps: '1. Ananas schälen und in Scheiben schneiden\n2. Scheiben mit Honig und Zimt bestreichen\n3. Auf den Grill legen\n4. Grillen bis die Ananas karamellisiert ist'
+      },
+      {
+        title: 'Grillbananen',
+        category: 'Desserts',
+        ingredients: 'Bananen, Schokolade, Marshmallows',
+        steps: '1. Bananen längs einschneiden\n2. Schokolade und Marshmallows in die Einschnitte geben\n3. In Alufolie einwickeln\n4. Auf den Grill legen\n5. Grillen bis die Schokolade geschmolzen ist und die Marshmallows leicht gebräunt sind'
+      },
+      // Weitere Grillrezepte hier hinzufügen...
+    ];
+
+    grillRecipes.forEach(recipe => addRecipe(recipe));
   }
 }
 
@@ -18,10 +62,15 @@ function saveRecipes() {
 
 // Funktion zum Hinzufügen eines neuen Rezepts
 function addRecipe(recipe) {
-  recipes.push(recipe);
-  saveRecipes();
-  displayRecipes();
-  clearForm();
+  const existingRecipeIndex = recipes.findIndex(r => r.title === recipe.title);
+  if (existingRecipeIndex === -1) {
+    recipes.push(recipe);
+    saveRecipes();
+    displayRecipes();
+    clearForm();
+  } else {
+    alert('Ein Rezept mit diesem Titel existiert bereits.');
+  }
 }
 
 // Funktion zum Bearbeiten eines vorhandenen Rezepts
@@ -39,6 +88,7 @@ function deleteRecipe(index) {
   recipes.splice(index, 1);
   saveRecipes();
   displayRecipes();
+  displayFavorites();
 }
 
 // Funktion zum Anzeigen der Rezepte
@@ -48,24 +98,55 @@ function displayRecipes() {
 
   recipes.forEach((recipe, index) => {
     const recipeItem = document.createElement('div');
+    recipeItem.className = 'recipe-item';
+
+    const title = recipe && recipe.title ? recipe.title : '';
+    const category = recipe && recipe.category ? recipe.category : '';
+    const ingredients = recipe && recipe.ingredients ? recipe.ingredients : '';
+    const steps = recipe && recipe.steps ? recipe.steps : '';
+
+    const ratingCount = recipe && recipe.ratings && recipe.ratings.length ? recipe.ratings.length : 0;
+    const averageRating = calculateAverageRating(recipe);
+
+    const favoriteClass = recipe && recipe.favorite ? 'favorite' : '';
+
     recipeItem.innerHTML = `
-      <h3>${recipe.title}</h3>
-      <p>${recipe.category}</p>
-      <p>${recipe.ingredients}</p>
-      <p>${recipe.steps}</p>
-      <p>Anzahl der Bewertungen: ${recipe.ratings.length}</p>
-      <p>Durchschnittliche Bewertung: ${calculateAverageRating(recipe)}</p>
+      <h3>${title}</h3>
+      <p>${category}</p>
+      <p>${ingredients}</p>
+      <p>${steps}</p>
+      <p>Anzahl der Bewertungen: ${ratingCount}</p>
+      <p>Durchschnittliche Bewertung: ${averageRating}</p>
       <div class="rating-stars">
         ${renderRatingStars(index)}
       </div>
       <button onclick="editRecipeForm(${index})">Bearbeiten</button>
       <button onclick="deleteRecipe(${index})">Löschen</button>
+      <button onclick="toggleFavorite(${index})" class="${favoriteClass}">
+        ${recipe && recipe.favorite ? 'Aus Favoriten entfernen' : 'Zu Favoriten hinzufügen'}
+      </button>
     `;
+
     recipeList.appendChild(recipeItem);
   });
 }
 
-// Funktion zum Öffnen des Formulars zum Hinzufügen eines neuen Rezepts
+// Funktion zum Anzeigen der Favoritenliste
+function displayFavorites() {
+  const favoritesList = document.getElementById('favorites-list');
+  favoritesList.innerHTML = '';
+
+  const favoriteRecipes = recipes.filter(recipe => recipe.favorite);
+
+  favoriteRecipes.forEach((recipe, index) => {
+    const favoriteItem = document.createElement('div');
+    favoriteItem.className = 'favorite-item';
+    favoriteItem.innerHTML = `<h4 onclick="displayFilteredRecipes([recipes[${recipes.indexOf(recipe)}]])">${recipe.title}</h4>`;
+    favoritesList.appendChild(favoriteItem);
+  });
+}
+
+// Funktion zum Öffnen des Formulars zum Hinzufügen oder Bearbeiten eines Rezepts
 function openAddRecipeForm() {
   clearForm();
   if (editingIndex === -1) {
@@ -75,7 +156,7 @@ function openAddRecipeForm() {
   }
 }
 
-// Funktion zum Hinzufügen eines neuen Rezepts
+// Funktion zum Hinzufügen oder Bearbeiten eines Rezepts
 function addRecipeForm() {
   const title = document.getElementById('title').value;
   const category = document.getElementById('category').value;
@@ -101,6 +182,7 @@ function addRecipeForm() {
   }
 }
 
+// Funktion zum Bearbeiten eines Rezepts
 function editRecipeForm(index) {
   const recipe = recipes[index];
   document.getElementById('title').value = recipe.title;
@@ -108,28 +190,28 @@ function editRecipeForm(index) {
   document.getElementById('ingredients').value = recipe.ingredients;
   document.getElementById('steps').value = recipe.steps;
   editingIndex = index; // Setzen des Bearbeitungsindex
-  document.getElementById('add-recipe-button').innerText = 'Aktualisieren'; // Änderungen im Button-Text vornehmen
+  updateFormForEdit();
 }
 
 // Funktion zum Aktualisieren eines vorhandenen Rezepts
-function updateRecipeForm(index) {
+function updateRecipeForm() {
   const title = document.getElementById('title').value;
   const category = document.getElementById('category').value;
   const ingredients = document.getElementById('ingredients').value;
   const steps = document.getElementById('steps').value;
 
-  if (title && category && ingredients && steps) {
+  if (title && category && ingredients && steps && editingIndex !== -1) {
     const recipe = {
       title: title,
       category: category,
       ingredients: ingredients,
       steps: steps,
-      favorite: recipes[index].favorite,
-      ratings: recipes[index].ratings
+      favorite: recipes[editingIndex].favorite,
+      ratings: recipes[editingIndex].ratings
     };
-    editRecipe(index, recipe);
+    editRecipe(editingIndex, recipe);
   } else {
-    alert('Bitte füllen Sie alle Felder aus.');
+    alert('Bitte füllen Sie alle Felder aus oder wählen Sie ein Rezept zum Bearbeiten aus.');
   }
 }
 
@@ -147,30 +229,36 @@ function toggleFavorite(index) {
     recipes[index].favorite = !recipes[index].favorite;
     saveRecipes();
     displayRecipes();
+    displayFavorites(); // Aktualisierte Anzeige der Favoritenliste
   }
 }
 
 // Funktion zum Vergeben von Sterne-Bewertungen für ein Rezept
 function rateRecipe(index, rating) {
   const recipe = recipes[index];
-  const lastRating = recipe.ratings.length > 0 ? recipe.ratings[recipe.ratings.length - 1] : null;
-  const currentDate = new Date();
 
-  if (lastRating === null || !lastRating.date || currentDate.getTime() - lastRating.date.getTime() >= 14 * 24 * 60 * 60 * 1000) {
-    const newRating = { rating: rating, date: currentDate };
-    recipe.ratings.push(newRating);
-    saveRecipes();
-    displayRecipes();
-  } else {
-    const daysRemaining = Math.ceil((lastRating.date.getTime() + 14 * 24 * 60 * 60 * 1000 - currentDate.getTime()) / (24 * 60 * 60 * 1000));
-    alert(`Sie können das Rezept erst nach ${daysRemaining} Tagen erneut bewerten.`);
+  // Check if recipe exists and has ratings
+  if (recipe && recipe.ratings) {
+    const lastRating = recipe.ratings.length > 0 ? recipe.ratings[recipe.ratings.length - 1] : null;
+    const currentDate = new Date();
+
+    if (lastRating === null || !lastRating.date || currentDate.getTime() - lastRating.date.getTime() >= 14 * 24 * 60 * 60 * 1000) {
+      const newRating = { rating: rating, date: currentDate };
+      recipe.ratings.push(newRating);
+      saveRecipes();
+      displayRecipes(); // Update the displayed recipes
+    } else {
+      const daysRemaining = Math.ceil((lastRating.date.getTime() + 14 * 24 * 60 * 60 * 1000 - currentDate.getTime()) / (24 * 60 * 60 * 1000));
+      alert(`Sie können das Rezept erst nach ${daysRemaining} Tagen erneut bewerten.`);
+    }
   }
 }
 
 
+
 // Funktion zur Berechnung der Durchschnittsbewertung eines Rezepts
 function calculateAverageRating(recipe) {
-  if (recipe.ratings.length === 0) {
+  if (!recipe || !recipe.ratings || !Array.isArray(recipe.ratings) || recipe.ratings.length === 0) {
     return 'Keine Bewertungen';
   }
   const sum = recipe.ratings.reduce((total, rating) => total + rating.rating, 0);
@@ -208,18 +296,22 @@ function displayFilteredRecipes(filteredRecipes) {
 
   filteredRecipes.forEach((recipe, index) => {
     const recipeItem = document.createElement('div');
+    recipeItem.className = 'recipe-item';
     recipeItem.innerHTML = `
       <h3>${recipe.title}</h3>
       <p>${recipe.category}</p>
       <p>${recipe.ingredients}</p>
       <p>${recipe.steps}</p>
-      <p>Anzahl der Bewertungen: ${recipe.ratings.length}</p>
+      <p>Anzahl der Bewertungen: ${recipe.ratings ? recipe.ratings.length : 0}</p>
       <p>Durchschnittliche Bewertung: ${calculateAverageRating(recipe)}</p>
       <div class="rating-stars">
         ${renderRatingStars(index)}
       </div>
       <button onclick="editRecipeForm(${index})">Bearbeiten</button>
       <button onclick="deleteRecipe(${index})">Löschen</button>
+      <button onclick="toggleFavorite(${index})" class="${recipe.favorite ? 'favorite' : ''}">
+        ${recipe.favorite ? 'Aus Favoriten entfernen' : 'Zu Favoriten hinzufügen'}
+      </button>
     `;
     recipeList.appendChild(recipeItem);
   });
@@ -227,22 +319,15 @@ function displayFilteredRecipes(filteredRecipes) {
 
 // Funktion zum Anpassen des Formulars für das Hinzufügen
 function updateFormForAdd() {
+  document.getElementById('form-title').innerText = 'Rezept hinzufügen';
   document.getElementById('add-recipe-button').innerText = 'Hinzufügen';
 }
 
 // Funktion zum Anpassen des Formulars für die Bearbeitung
 function updateFormForEdit() {
+  document.getElementById('form-title').innerText = 'Rezept bearbeiten';
   document.getElementById('add-recipe-button').innerText = 'Aktualisieren';
 }
 
-// Funktion zum Laden der Rezepte beim Seitenaufruf
+// Grillrezepte zu den Rezepten hinzufügen
 loadRecipes();
-
-// cursor fire
-document.addEventListener('mousemove', function(event) {
-  var cursorFire = document.querySelector('.cursor-fire');
-  var x = event.clientX - 20;
-  var y = event.clientY - 20;
-  cursorFire.style.left = x + 'px';
-  cursorFire.style.top = y + 'px';
-});

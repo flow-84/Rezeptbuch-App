@@ -20,10 +20,11 @@ body {
 
 .container {
   color: #f9f9f9;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
+  max-width: 1000px;
+  margin: 0;
+  padding: 10px;
   background-color: var(--color-gradient);
+  display: flexbox;
 }
 
 /* Header */
@@ -66,7 +67,7 @@ header {
   display: block;
   margin: 0 auto;
   max-width: 100%;
-  height: auto;
+  height: 100px;
 }
 
 header h1 {
@@ -78,69 +79,21 @@ header h1 {
 .main-content {
   display: flexbox;
   grid-template-columns: 1fr;
-  grid-gap: 20px;
+  grid-gap: 10px;
   padding: 0px;
 }
 
 .recipe-list,
 .recipe-form,
-.recipe-item {
+.recipe-item,
+.favorites-list {
   display: flexbox;
-  background-color: #0000009c;
-  padding: 50px;
-  margin-top: 50px;
-  margin-bottom: 50px;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.recipe-item {
+  background-color: #000000b3;
+  padding: 20px;
+  margin-top: 20px;
   margin-bottom: 20px;
-}
-
-.recipe-item h3 {
-  margin-top: 20px;
-}
-
-.recipe-item p {
-  margin: 10px 0;
-}
-
-.recipe-item:not(:last-child) {
-  border-bottom: 1px solid var(--color-text);
-
-  .recipe-item {
-  position: relative;
-  margin-bottom: 40px;
-  padding: 40px;
-  background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.recipe-item h3 {
-  margin-top: 0;
-  font-size: 24px;
-}
-
-.recipe-item p {
-  margin: 10px 0;
-  font-size: 16px;
-}
-
-.recipe-item:not(:last-child) {
-  border-bottom: 1px solid #ccc;
-}
-
-.recipe-item .rating-stars {
-  margin-top: 20px;
-}
-
-.recipe-item button {
-  margin-top: 20px;
-  margin-bottom: 60px;
-}
-
 }
 
 .recipe-form h2 {
@@ -149,12 +102,10 @@ header h1 {
 
 .recipe-form label {
   display: block;
-  margin-top: 10px;
+  margin-top: 20px;
   color: var(--color-text);
 }
 
-.recipe-form input,
-.recipe-form textarea,
 .recipe-form select {
   display: block;
   width: 100%;
@@ -166,9 +117,32 @@ header h1 {
   color:#000000;
 }
 
+.recipe-form textarea {
+  display: block;
+  width: 100%;
+  height: 150px;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 10px;
+  border: none;
+  background-color: #ffffff;
+  color:#000000;
+}
+
+.recipe-form input {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 10px;
+  border: none;
+  background-color: #ffffff;
+  color:#000000;
+}
+
 .recipe-form button {
-  margin-top: 20px;
-  padding: 10px 20px;
+  margin-top: 40px;
+  padding: 20px 20px;
   border: none;
   border-radius: 10px;
   background-color: var(--color-secondary);
@@ -200,13 +174,57 @@ header h1 {
 
 .search-container input {
   width: 100%;
-  max-width: 800px;
+  max-width: 1000px;
   padding: 20px;
   margin-top: 50px;
+  margin-bottom: 10px;
   border-radius: 10px;
   border: none;
   background-color: var(--color-primary);
   color: #ffffff;
+}
+.favorites-list {
+  margin-top: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  max-width: 1000px;
+  width: 100%;
+  margin-left: 0px;
+}
+
+.favorites-list h2 {
+  margin-top: 0;
+}
+
+.favorites-list .favorite-item {
+  background-color: var(--color-secondary);
+  color: var(--color-text);
+  width: auto;
+  height: auto;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.favorites-list .favorite-item:hover {
+  background-color: var(--color-tertiary);
+}
+
+.favorites-list .favorite-item:active {
+  transform: scale(0.95);
+}
+
+
+
+.favorites-list .favorite-item:hover {
+  background-color: var(--color-tertiary);
+}
+
+.favorites-list .favorite-item:active {
+  transform: scale(0.95);
 }
 
 @media screen and (min-width: 480px) {
@@ -228,9 +246,13 @@ header h1 {
   
   .container {
     width: 100%;
-    padding: 20px;
+    padding: 10px;
     margin-left: auto;
     margin-right: auto;
+  }
+  
+  .favorites-list {
+    width: 100%;
   }
 }
 
@@ -239,14 +261,15 @@ header h1 {
     padding: 10px;
   }
 }
+
 /* Cursor Fire Effect */
 .cursor-fire {
   position: fixed;
   pointer-events: none;
   z-index: 9999;
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   background-image: url('fire.gif');
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
-
