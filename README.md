@@ -1,3 +1,4 @@
+![Logo](https://github.com/flow-84/Rezeptbuch-App/raw/main/img/Logo-V1.png)
 # Rezeptverwaltungsanwendung
 
 Eine einfache JavaScript-Anwendung zur Verwaltung von Rezepten. Diese Anwendung ermöglicht das Hinzufügen, Bearbeiten, Löschen und Anzeigen von Rezepten. Außerdem können Rezepte nach Kriterien durchsucht werden.
