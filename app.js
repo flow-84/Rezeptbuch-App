@@ -101,7 +101,7 @@ function displayRecipes() {
     recipeItem.className = 'recipe-item';
 
     const title = recipe && recipe.title ? recipe.title : '';
-    const category = recipe && recipe.category ? recipe.category : '';
+    const category = recipe && recipe.category ? recipe.category :'';
     const ingredients = recipe && recipe.ingredients ? recipe.ingredients : '';
     const steps = recipe && recipe.steps ? recipe.steps.split('\n') : []; // Schritte als Liste
 

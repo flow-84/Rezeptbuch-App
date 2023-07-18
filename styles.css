@@ -2,7 +2,7 @@
   /* Farbvariablen */
   --color-primary: #000000; /* Primärfarbe */
   --color-secondary: #ff0000; /* Sekundärfarbe */
-  --color-tertiary: #ffebb7; /* Tertiärfarbe */
+  --color-tertiary: #ffebb7a5; /* Tertiärfarbe */
   --color-text: #ffffff; /* Textfarbe */
   --color-gradient: linear-gradient(to right, var(--color-tertiary), var(--color-secondary), var(--color-tertiary)); /* Farbverlauf */
 }
@@ -199,7 +199,7 @@ header h1 {
 
 .favorites-list {
   margin-top: 50px;
-  display: flex;
+  display: flexbox;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: flex-start;
@@ -222,31 +222,37 @@ header h1 {
   font-size: medium;
 }
 
+.favorites-list {
+  position: relative;
+}
+
 .favorites-heading {
+  display: flexbox;
   position: absolute;
   top: -30px;
-  left: 0;
   width: 100%;
   text-align: center;
   font-weight: bold;
-  font-size: 20px;
 }
+
 
 
 
 .favorites-list .favorite-item {
-  background-color: var(--color-secondary); /* Hintergrundfarbe der Favoritenliste */
+  background-color: #0000009e; /* Hintergrundfarbe der Favoritenliste */
   color: var(--color-text); /* Textfarbe der Favoritenliste */
   width: auto;
   height: auto;
-  margin: 10px;
-  padding:0 10px 0;
+  margin: 20px;
+  padding:1px 1px 1px 30px;
   border-radius: 5px;
   cursor: pointer;
+  font-size: larger;
 }
 
 .favorites-list .favorite-item:hover {
   background-color: var(--color-tertiary); /* Hintergrundfarbe der Favoritenliste beim Hovern */
+  color:black ;
 }
 
 .favorites-list .favorite-item:active {
@@ -295,7 +301,5 @@ header h1 {
   z-index: 9999;
   width: 40px;
   height: 40px;
-  background-image: url('fire.gif'); /* Hintergrundbild für den Feuer-Effekt des Cursors */
-  background-size: contain;
-  background-repeat: no-repeat;
+  background-image: url('fire.gif'); 
 }
