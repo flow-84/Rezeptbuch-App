@@ -93,7 +93,7 @@ header h1 {
 .favorites-list {
   display: block;
   background-color: #000000d1; /* Hintergrundfarbe der Rezeptliste, des Rezeptformulars, der Rezeptelemente und der Favoritenliste */
-  padding: 50px;
+  padding: 40px;
   margin-top: 20px;
   margin-bottom: 20px;
   border-radius: 10px;
@@ -261,13 +261,14 @@ header h1 {
   color: var(--color-text); /* Textfarbe der Favoritenliste */
   width: auto;
   height: auto;
-  margin: 20px;
-  padding:1px 1px 1px 30px;
+  margin: 10px 10px 20px;
+  padding:1px 1px 1px 1px;
   border-radius: 5px;
   cursor: pointer;
-  font-size: larger;
+  font-size: 20px;
   border-style: solid;
   border-color: #FFD166;
+  text-align: center;
 }
 
 .favorites-list .favorite-item:hover {
@@ -310,9 +311,7 @@ header h1 {
     margin:0px 0px 50px 0px ;
   }
   .recipe-list {
-  
-    padding: 50px 0px 50px 0px;
-
+    padding: 0px 0px 0px 0px;
   }
 
 }
