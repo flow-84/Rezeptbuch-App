@@ -44,4 +44,4 @@ Die Rezeptverwaltungsanwendung wurde von Flow-84 entwickelt.
 
 ## Lizenz
 
-Dieses Projekt ist unter der [MIT-Lizenz](https://github.com/flow-84/Rezeptbuch-App/blob/main/LICENSE) lizenziert.
+keine
