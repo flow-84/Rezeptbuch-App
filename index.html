@@ -19,10 +19,14 @@
     <div class="container">
       <div class="main-content">
 
+        <!-- Rezeptformular -->
         <div class="recipe-form" id="recipe-form">
-          <h2>Rezept hinzufügen/bearbeiten</h2>
+          <h2 id="form-title">Rezept hinzufügen</h2>
+          <!-- Titel-Eingabefeld -->
           <label for="title">Titel:</label>
           <input type="text" id="title" required>
+
+          <!-- Kategorie-Auswahlfeld -->
           <label for="category">Kategorie:</label>
           <select id="category" required>
             <option value="">Bitte wählen</option>
@@ -30,21 +34,39 @@
             <option value="Hauptgerichte">Hauptgerichte</option>
             <option value="Desserts">Desserts</option>
           </select>
+
+          <!-- Zutaten-Textfeld -->
           <label for="ingredients">Zutaten:</label>
           <textarea id="ingredients" required></textarea>
+
+          <!-- Zubereitungsschritte-Textfeld -->
           <label for="steps">Zubereitungsschritte:</label>
           <textarea id="steps" required></textarea>
+
+          <!-- Button zum Hinzufügen des Rezepts -->
           <button id="add-recipe-button" onclick="addRecipeForm()">Hinzufügen</button>
+
+          <!-- Button zum Zurücksetzen des Formulars -->
+          <button onclick="clearForm()">Formular zurücksetzen</button>
         </div>
+
+        <!-- Liste der Favoriten -->
+        <div class="favorites-list" id="favorites-list">Favoriten</div>
+
+        <!-- Suchfeld -->
         <div class="search-container">
           <input type="text" id="search-input" placeholder="Rezepte suchen..." oninput="searchRecipes(this.value)">
         </div>
+
+        <!-- Rezeptliste -->
         <div class="recipe-list" id="recipe-list"></div>
       </div>
     </div>
   </main>
 
+  <!-- JavaScript-Datei -->
   <script src="app.js"></script>
+
 </body>
 
 </html>
