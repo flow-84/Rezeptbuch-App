@@ -64,6 +64,7 @@ function saveRecipes() {
 function addRecipe(recipe) {
   const existingRecipeIndex = recipes.findIndex(r => r.title === recipe.title);
   if (existingRecipeIndex === -1) {
+    recipe.ratings = [];
     recipes.push(recipe);
     saveRecipes();
     displayRecipes();
@@ -120,11 +121,11 @@ function displayRecipes() {
       <p>Anzahl der Bewertungen: ${ratingCount}</p>
       <p>Durchschnittliche Bewertung: ${averageRating}</p>
       <div class="rating-stars">
-        ${renderRatingStars(index)}
+        ${renderRatingStars(recipes.indexOf(recipe))}
       </div>
-      <button onclick="editRecipeForm(${index})">Bearbeiten</button>
-      <button onclick="deleteRecipe(${index})">Löschen</button>
-      <button onclick="toggleFavorite(${index})" class="${favoriteClass}">
+      <button onclick="editRecipeForm(${recipes.indexOf(recipe)})">Bearbeiten</button>
+      <button onclick="deleteRecipe(${recipes.indexOf(recipe)})">Löschen</button>
+      <button onclick="toggleFavorite(${recipes.indexOf(recipe)})" class="${favoriteClass}">
         ${recipe && recipe.favorite ? 'Aus Favoriten entfernen' : 'Zu Favoriten hinzufügen'}
       </button>
     `;
@@ -236,28 +237,21 @@ function toggleFavorite(index) {
   }
 }
 
-// Funktion zum Vergeben von Sterne-Bewertungen für ein Rezept
 function rateRecipe(index, rating) {
   const recipe = recipes[index];
 
-// Überprüfen, ob das Rezept vorhanden ist und Bewertungen hat
+  // Überprüfen, ob das Rezept vorhanden ist und Bewertungen hat
   if (recipe && recipe.ratings) {
-    const lastRating = recipe.ratings.length > 0 ? recipe.ratings[recipe.ratings.length - 1] : null;
-    const currentDate = new Date();
-
-    if (lastRating === null || !lastRating.date || currentDate.getTime() - lastRating.date.getTime() >= 1 * 60 * 1000) {
-      const newRating = { rating: rating, date: currentDate };
-      recipe.ratings.push(newRating);
-      saveRecipes();
-      displayRecipes(); // Update das angezeigte Rezept
-    } else {
-      const minutesRemaining = Math.ceil((lastRating.date.getTime() + 1 * 60 * 1000 - currentDate.getTime()) / (60 * 1000));
-      alert(`Sie können das Rezept erst nach ${minutesRemaining} Minuten erneut bewerten.`);
-    }
+    const newRating = { rating: rating, date: new Date() };
+    recipe.ratings.push(newRating);
+    saveRecipes();
+    displayRecipes(); // Update das angezeigte Rezept
+  } else if (recipe) {
+    recipe.ratings = [{ rating: rating, date: new Date() }]; // Neue Bewertungsliste erstellen
+    saveRecipes();
+    displayRecipes(); // Update das angezeigte Rezept
   }
 }
-
-
 
 
 // Funktion zur Berechnung der Durchschnittsbewertung eines Rezepts
@@ -334,7 +328,6 @@ function displayFilteredRecipes(filteredRecipes) {
     recipeList.appendChild(recipeItem);
   });
 }
-
 
 // Funktion zum Anpassen des Formulars für das Hinzufügen
 function updateFormForAdd() {
