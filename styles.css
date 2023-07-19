@@ -91,6 +91,7 @@ header h1 {
 .recipe-form,
 .recipe-item,
 .favorites-list {
+  height: auto;
   display: block;
   background-color: #000000d1; /* Hintergrundfarbe der Rezeptliste, des Rezeptformulars, der Rezeptelemente und der Favoritenliste */
   padding: 40px;
